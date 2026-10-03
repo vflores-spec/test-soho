@@ -2,29 +2,34 @@ const express = require('express');
 
 const app = express();
 const PORT = 3000;
+
 app.use(express.json());
 
-const vacantes = [
-  { id: 1, titulo: 'Desarrollador Backend Jr', empresa: 'Tech Andes', modalidad: 'remoto', salario: 900 },
-  { id: 2, titulo: 'Analista de Datos', empresa: 'DataSur', modalidad: 'híbrido', salario: 1100 },
+const vacancies = [
+  { id: 1, title: 'Desarrollador Backend Jr', company: 'Tech Andes', modality: 'remoto', salary: 900 },
+  { id: 2, title: 'Analista de Datos', company: 'DataSur', modality: 'híbrido', salary: 1100 },
 ];
 
-app.get('/vacantes', (req, res) => {
-  res.json(vacantes);
+app.get('/vacancies', (req, res) => {
+  res.json(vacancies);
 });
 
-app.post('/vacantes', (req, res) => {
-  const { titulo, empresa, modalidad, salario } = req.body;
+app.post('/vacancies', (req, res) => {
+  const { title, company, modality, salary } = req.body;
 
-  if (!titulo || !empresa) {
-    return res.status(400).json({ error: 'titulo y empresa son obligatorios' });
+  if (!title || !company) {
+    return res.status(400).json({ error: 'El título y la empresa son obligatorios' });
   }
 
-  const nueva = { id: vacantes.length + 1, titulo, empresa, modalidad, salario };
-  vacantes.push(nueva);
-  res.status(201).json(nueva);
+  const newVacancy = { id: vacancies.length + 1, title, company, modality, salary };
+  vacancies.push(newVacancy);
+  res.status(201).json(newVacancy);
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
