@@ -26,6 +26,27 @@ app.post('/vacancies', (req, res) => {
   res.status(201).json(newVacancy);
 });
 
+const candidates = [
+  { id: 1, name: 'Ana Torres', email: 'ana.torres@example.com', city: 'Quito', experienceYears: 2 },
+  { id: 2, name: 'Luis Mora', email: 'luis.mora@example.com', city: 'Guayaquil', experienceYears: 5 },
+];
+
+app.get('/candidates', (req, res) => {
+  res.json(candidates);
+});
+
+app.post('/candidates', (req, res) => {
+  const { name, email, city, experienceYears } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'El nombre y el correo son obligatorios' });
+  }
+
+  const newCandidate = { id: candidates.length + 1, name, email, city, experienceYears };
+  candidates.push(newCandidate);
+  res.status(201).json(newCandidate);
+});
+
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
